@@ -21,5 +21,20 @@ public class PrivateMessageController {
     @Autowired
     private MService service;
 
+/*    @MessageMapping("/private-message")
+    @SendToUser("/topic/private-messages")
+    public ResponseMessage getPrivateMessage(final Message message, final Principal principal)
+            throws InterruptedException {
 
+        Thread.sleep(1000);
+        return new ResponseMessage(HtmlUtils.htmlEscape("Sending private message to user: "+
+                principal.getName()+
+                ": "+ message.getMessageContent()));
+    }*/
+
+  /*  @PostMapping("/send-private-message/{id}")
+    public void sendPrivateMessage(@PathVariable final String id,
+                                   @RequestBody final Message message){
+        service.notifyUser(id, message.getMessageContent());
+    }*/
 }

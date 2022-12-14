@@ -9,22 +9,23 @@ import org.springframework.stereotype.Service;
 public class MService {
 
     private final SimpMessagingTemplate messagingTemplate;
-
-
+    private final NService nService;
     @Autowired
-    public MService(SimpMessagingTemplate messagingTemplate) {
+    public MService(SimpMessagingTemplate messagingTemplate, NService nService) {
         this.messagingTemplate = messagingTemplate;
+        this.nService = nService;
     }
-
     public void notifyFrontend(final String message){
         ResponseMessage response= new ResponseMessage(message);
+        nService.sendGlobalNotification();
         messagingTemplate.convertAndSend("/topic/messages", response);
     }
-
     public void notifyUser(final String id, final String message){
 
         ResponseMessage response= new ResponseMessage(message);
-        messagingTemplate.convertAndSendToUser(id, "/topic/private-messages", response);
+        nService.sendPrivateNotification(id);
+        messagingTemplate.convertAndSendToUser(id,
+                "/topic/private-messages", response);
     }
 
 }
