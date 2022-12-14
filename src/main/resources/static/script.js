@@ -8,6 +8,10 @@ $(document).ready(function(){
 
                 sendMessage();
             });
+        $("#send-private").click(function(){
+
+                sendPrivateMessage();
+        });
 
 });
 
@@ -23,12 +27,17 @@ function connect(){
                 });
 
                 stompClient.subscribe('/user/topic/private-messages', function (message){
-                        showMessage(JSON.parse(message.body).responseMessage);
+                        showPrivateMessage(JSON.parse(message.body).responseMessage);
                 });
         });
 }
 
 function showMessage(message){
+
+        $("#messages").append("<tbody style='color: black'><tr><td>"+ message + "</td></tr></tbody>");
+}
+
+function showPrivateMessage(message){
 
         $("#messages").append("<tbody style='color: black'><tr><td>"+ message + "</td></tr></tbody>");
 }
@@ -40,5 +49,5 @@ function sendMessage(){
 
 function sendPrivateMessage(){
         console.log("Sending Private Message");
-        stompClient.send("/ws//private-message", {},JSON.stringify({'messageContent': $("#message").val()}));
+        stompClient.send("/ws/private-message", {},JSON.stringify({'messageContent': $("#private-message").val()}));
 }
